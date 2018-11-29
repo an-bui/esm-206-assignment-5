@@ -14,49 +14,61 @@ library(stargazer)
 
 #### read in data ####
 phd_fields <- read_csv("phds_field.csv")
-fields_85 <- read_csv("phds_field_1985.csv")
-fields_00 <- read_csv("phds_field_2000.csv")
-fields_15 <- read_csv("phds_field_2015.csv")
 faculty_salary <- read_csv("faculty_salary.csv")
 ```
 
 ##### Is there a significant association between sex and specialty in 1985, 2000, and 2015?
 ```{r an attempt at wrangling}
 #### chi square for 1985 ####
-fields_85_simpl <- fields_85 %>% 
-  select(-sex)
+fields_85 <- phd_fields %>%
+  filter(year == "1985") %>% 
+  select("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
 
-rownames(fields_85_simpl) <- c("male", "female")
+rownames(fields_85) <- c("male", "female")
 
-fields_85_prop <- prop.table(as.matrix(fields_85_simpl), 1)
+fields_85_prop <- phd_fields %>%
+  filter(year == "1985") %>% 
+  select("lifesci_prop", "physsci_prop", "math_prop", "psych_prop", "eng_prop", "edu_prop", "arts_prop", "other_prop")
 
-fields85_chi <- chisq.test(fields_85_simpl)
+rownames(fields_85_prop) <- c("male", "female")
+
+fields85_chi <- chisq.test(fields_85)
 fields85_chi
 # proportions are different, no shit
 
 #### chi square for 2000 ####
 
-fields_00_simpl <- fields_00 %>% 
-  select(-sex)
+fields_00 <- phd_fields %>%
+  filter(year == "2000") %>% 
+  select("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
 
-rownames(fields_00_simpl) <- c("male", "female")
+rownames(fields_00) <- c("male", "female")
 
-fields_00_prop <- prop.table(as.matrix(fields_00_simpl), 1)
+fields_00_prop <- phd_fields %>%
+  filter(year == "2000") %>% 
+  select("lifesci_prop", "physsci_prop", "math_prop", "psych_prop", "eng_prop", "edu_prop", "arts_prop", "other_prop")
 
-fields00_chi <- chisq.test(fields_00_simpl)
+rownames(fields_00_prop) <- c("male", "female")
+
+fields00_chi <- chisq.test(fields_00)
 fields00_chi
 # proportions are different
 
 #### chi square for 2015 ####
 
-fields_15_simpl <- fields_15 %>% 
-  select(-sex)
+fields_15 <- phd_fields %>%
+  filter(year == "2015") %>% 
+  select("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
 
-rownames(fields_15_simpl) <- c("male", "female")
+rownames(fields_15) <- c("male", "female")
 
-fields_15_prop <- prop.table(as.matrix(fields_15_simpl), 1)
+fields_15_prop <- phd_fields %>%
+  filter(year == "2015") %>% 
+  select("lifesci_prop", "physsci_prop", "math_prop", "psych_prop", "eng_prop", "edu_prop", "arts_prop", "other_prop")
 
-fields15_chi <- chisq.test(fields_15_simpl)
+rownames(fields_15_prop) <- c("male", "female")
+
+fields15_chi <- chisq.test(fields_15)
 fields15_chi
 # proportions are different
 ```
