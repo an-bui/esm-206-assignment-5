@@ -7,22 +7,59 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
 
-```{r set up, include = FALSE}
+#### load packages ####
 library(tidyverse)
 library(stargazer)
 
+#### read in data ####
 phd_fields <- read_csv("phds_field.csv")
-fields_1985 <- read_csv("phds_field_1985.csv")
+fields_85 <- read_csv("phds_field_1985.csv")
+fields_00 <- read_csv("phds_field_2000.csv")
+fields_15 <- read_csv("phds_field_2015.csv")
 ```
 
+##### Is there a significant association between sex and specialty in 1985, 2000, and 2015?
 ```{r an attempt at wrangling}
-  
-rownames(fields_1985) <- c("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
+#### chi square for 1985 ####
+fields_85_simpl <- fields_85 %>% 
+  select(-sex)
 
+rownames(fields_85_simpl) <- c("male", "female")
+
+fields_85_prop <- prop.table(as.matrix(fields_85_simpl), 1)
+
+fields85_chi <- chisq.test(fields_85_simpl)
+fields85_chi
+# proportions are different, no shit
+
+#### chi square for 2000 ####
+
+fields_00_simpl <- fields_00 %>% 
+  select(-sex)
+
+rownames(fields_00_simpl) <- c("male", "female")
+
+fields_00_prop <- prop.table(as.matrix(fields_00_simpl), 1)
+
+fields00_chi <- chisq.test(fields_00_simpl)
+fields00_chi
+# proportions are different
+
+#### chi square for 2015 ####
+
+fields_15_simpl <- fields_15 %>% 
+  select(-sex)
+
+rownames(fields_15_simpl) <- c("male", "female")
+
+fields_15_prop <- prop.table(as.matrix(fields_15_simpl), 1)
+
+fields15_chi <- chisq.test(fields_15_simpl)
+fields15_chi
+# proportions are different
 ```
-
+In 1985, 2000, and 2015, there is a significant association between sex and PhD specialty.
 
 
 
