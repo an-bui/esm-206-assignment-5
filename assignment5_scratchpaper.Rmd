@@ -1,0 +1,30 @@
+---
+title: "Assignment 5 scratch paper"
+author: "An Bui"
+date: "11/28/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r set up, include = FALSE}
+library(tidyverse)
+library(stargazer)
+
+phd_fields <- read_csv("phds_field.csv")
+fields_1985 <- read_csv("phds_field_1985.csv")
+```
+
+```{r an attempt at wrangling}
+  
+rownames(fields_1985) <- c("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
+
+```
+
+
+
+
+
+
