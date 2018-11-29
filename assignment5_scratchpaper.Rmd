@@ -143,10 +143,33 @@ line_df <- phd_fields_field %>%
   filter(year == "1985" |
            year == "2000" |
            year == "2015") %>%
+  filter(field == "physsci" |
+           field == "eng" |
+           field == "edu" |
+           field == "arts") %>% 
   select("field", "year", "female_prop")
 
-fields_line <- ggplot(line_df, aes(x = "year", y = "female_prop", group = field)) +
-  geom_point()
+physsci <- phd_fields_field %>% 
+  filter(field == "physsci") %>% 
+  select("year", "female_prop")
+
+eng <- phd_fields_field %>% 
+  filter(field == "eng") %>% 
+  select("year", "female_prop")
+
+edu <- phd_fields_field %>% 
+  filter(field == "edu") %>% 
+  select("year", "female_prop")
+
+arts <- phd_fields_field %>% 
+  filter(field == "arts") %>% 
+  select("year", "female_prop")
+
+fields_line <- ggplot(line_df, aes(x = year, y = female_prop, group = field)) +
+  geom_line(aes(color = field)) +
+  geom_point(aes(color = field)) +
+  expand_limits(y = 1) +
+  theme_minimal()
 
 fields_line
 ```
