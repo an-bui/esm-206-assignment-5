@@ -13,24 +13,41 @@ library(tidyverse)
 library(stargazer)
 
 #### read in data ####
-phd_fields <- read_csv("phds_field.csv")
+phd_fields_sex <- read_csv("phds_field_sex.csv")
+phd_fields_field <- read_csv("phds_field_field.csv")
 faculty_salary <- read_csv("faculty_salary.csv")
 ```
 
 ##### Is there a significant association between sex and specialty in 1985, 2000, and 2015?
 ```{r an attempt at wrangling}
 #### chi square for 1985 ####
-fields_85 <- phd_fields %>%
-  filter(year == "1985") %>% 
-  select("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
+fields_85 <- phd_fields_field %>%
+  filter(year == "1985",
+         field == "lifesci" |
+           field == "physsci" |
+           field == "math" |
+           field == "psych" |
+           field == "eng" |
+           field == "edu" |
+           field == "arts" |
+           field == "other") %>% 
+  select("male", "female")
 
-rownames(fields_85) <- c("male", "female")
+rownames(fields_85) <- c("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
 
-fields_85_prop <- phd_fields %>%
-  filter(year == "1985") %>% 
-  select("lifesci_prop", "physsci_prop", "math_prop", "psych_prop", "eng_prop", "edu_prop", "arts_prop", "other_prop")
+fields_85_prop <- phd_fields_field %>%
+  filter(year == "1985",
+         field == "lifesci" |
+           field == "physsci" |
+           field == "math" |
+           field == "psych" |
+           field == "eng" |
+           field == "edu" |
+           field == "arts" |
+           field == "other") %>% 
+  select("male_prop", "female_prop")
 
-rownames(fields_85_prop) <- c("male", "female")
+rownames(fields_85_prop) <- c("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
 
 fields85_chi <- chisq.test(fields_85)
 fields85_chi
@@ -38,17 +55,33 @@ fields85_chi
 
 #### chi square for 2000 ####
 
-fields_00 <- phd_fields %>%
-  filter(year == "2000") %>% 
-  select("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
+fields_00 <- phd_fields_field %>%
+  filter(year == "2000",
+         field == "lifesci" |
+           field == "physsci" |
+           field == "math" |
+           field == "psych" |
+           field == "eng" |
+           field == "edu" |
+           field == "arts" |
+           field == "other") %>% 
+  select("male", "female")
 
-rownames(fields_00) <- c("male", "female")
+rownames(fields_00) <- c("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
 
-fields_00_prop <- phd_fields %>%
-  filter(year == "2000") %>% 
-  select("lifesci_prop", "physsci_prop", "math_prop", "psych_prop", "eng_prop", "edu_prop", "arts_prop", "other_prop")
+fields_00_prop <- phd_fields_field %>%
+  filter(year == "2000",
+         field == "lifesci" |
+           field == "physsci" |
+           field == "math" |
+           field == "psych" |
+           field == "eng" |
+           field == "edu" |
+           field == "arts" |
+           field == "other") %>% 
+  select("male_prop", "female_prop")
 
-rownames(fields_00_prop) <- c("male", "female")
+rownames(fields_00_prop) <- c("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
 
 fields00_chi <- chisq.test(fields_00)
 fields00_chi
@@ -56,23 +89,68 @@ fields00_chi
 
 #### chi square for 2015 ####
 
-fields_15 <- phd_fields %>%
-  filter(year == "2015") %>% 
-  select("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
+fields_15 <- phd_fields_field %>%
+  filter(year == "2015",
+         field == "lifesci" |
+           field == "physsci" |
+           field == "math" |
+           field == "psych" |
+           field == "eng" |
+           field == "edu" |
+           field == "arts" |
+           field == "other") %>% 
+  select("male", "female")
 
-rownames(fields_15) <- c("male", "female")
+rownames(fields_15) <- c("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
 
-fields_15_prop <- phd_fields %>%
-  filter(year == "2015") %>% 
-  select("lifesci_prop", "physsci_prop", "math_prop", "psych_prop", "eng_prop", "edu_prop", "arts_prop", "other_prop")
+fields_15_prop <- phd_fields_field %>%
+  filter(year == "2015",
+         field == "lifesci" |
+           field == "physsci" |
+           field == "math" |
+           field == "psych" |
+           field == "eng" |
+           field == "edu" |
+           field == "arts" |
+           field == "other") %>% 
+  select("male_prop", "female_prop")
 
-rownames(fields_15_prop) <- c("male", "female")
+rownames(fields_15_prop) <- c("lifesci", "physsci", "math", "psych", "eng", "edu", "arts", "other")
 
 fields15_chi <- chisq.test(fields_15)
 fields15_chi
 # proportions are different
 ```
 In 1985, 2000, and 2015, there is a significant association between sex and PhD specialty.
+
+```{r specialty bar graph}
+#### bar of proportions ####
+figure_df <- phd_fields_field %>% 
+  filter(year == "1985" |
+           year == "2000" |
+           year == "2015") %>% 
+  select("field", "year", "male", "female")
+  
+fields_bar <- ggplot(figure_df, aes(x = year)) +
+  geom_bar() +
+  facet_wrap(~field)
+fields_bar
+# this isn't working and i am done thinking about it
+```
+
+```{r specialty line graph}
+line_df <- phd_fields_field %>% 
+  filter(year == "1985" |
+           year == "2000" |
+           year == "2015") %>%
+  select("field", "year", "female_prop")
+
+fields_line <- ggplot(line_df, aes(x = "year", y = "female_prop", group = field)) +
+  geom_point()
+
+fields_line
+```
+
 
 ##### Model describing faculty salary
 Explore relationships between
