@@ -222,7 +222,18 @@ lifesci <- phd_fields_field %>%
 lifesci_kw <- kruskal.test(female_prop ~ year, data = lifesci)
 lifesci_kw
 ```
+```{r chi square again}
+physsci_x2df <- phd_fields_field %>% 
+  filter(field == "physsci") %>% 
+  select("male", "female")
 
+rownames(physsci_x2df) <- c("1985", "1990", "1995", "2000", "2005", "2010", "2015")
+
+physsci_x2 <- chisq.test(physsci_x2df)
+physsci_x2
+  
+```
+ 
 
 ##### Model describing faculty salary
 Explore relationships between
