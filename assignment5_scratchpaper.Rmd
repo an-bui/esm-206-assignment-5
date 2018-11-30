@@ -223,6 +223,7 @@ lifesci_kw <- kruskal.test(female_prop ~ year, data = lifesci)
 lifesci_kw
 ```
 ```{r chi square again}
+#### physsci ####
 physsci_x2df <- phd_fields_field %>% 
   filter(field == "physsci") %>% 
   select("male", "female")
@@ -231,7 +232,37 @@ rownames(physsci_x2df) <- c("1985", "1990", "1995", "2000", "2005", "2010", "201
 
 physsci_x2 <- chisq.test(physsci_x2df)
 physsci_x2
-  
+
+#### eng ####
+eng_x2df <- phd_fields_field %>% 
+  filter(field == "eng") %>% 
+  select("male", "female")
+
+rownames(eng_x2df) <- c("1985", "1990", "1995", "2000", "2005", "2010", "2015")
+
+eng_x2 <- chisq.test(eng_x2df)
+eng_x2
+
+#### edu ####
+edu_x2df <- phd_fields_field %>% 
+  filter(field == "edu") %>% 
+  select("male", "female")
+
+rownames(edu_x2df) <- c("1985", "1990", "1995", "2000", "2005", "2010", "2015")
+
+edu_x2 <- chisq.test(edu_x2df)
+edu_x2
+
+#### arts ####
+arts_x2df <- phd_fields_field %>% 
+  filter(field == "arts") %>% 
+  select("male", "female")
+
+rownames(arts_x2df) <- c("1985", "1990", "1995", "2000", "2005", "2010", "2015")
+
+arts_x2 <- chisq.test(arts_x2df)
+arts_x2
+
 ```
  
 
