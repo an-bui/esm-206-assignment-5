@@ -124,21 +124,7 @@ fields15_chi
 ```
 In 1985, 2000, and 2015, there is a significant association between sex and PhD specialty.
 
-```{r specialty bar graph}
-#### bar of proportions ####
-figure_df <- phd_fields_field %>% 
-  filter(year == "1985" |
-           year == "2000" |
-           year == "2015") %>% 
-  select("field", "year", "male", "female")
-  
-fields_bar <- ggplot(figure_df, aes(x = year)) +
-  geom_bar() +
-  facet_wrap(~field)
-fields_bar
-# this isn't working and i am done thinking about it
-```
-
+##### Is there a shift in proportion of women in each field between 1985, 2000, and 2015?
 ```{r specialty line graph}
 line_df <- phd_fields_field %>% 
   filter(year == "1985" |
@@ -147,7 +133,8 @@ line_df <- phd_fields_field %>%
   filter(field == "physsci" |
            field == "eng" |
            field == "edu" |
-           field == "arts") %>% 
+           field == "arts" |
+           field == "lifesci") %>% 
   select("field", "year", "female_prop")
 
 physsci <- phd_fields_field %>% 
@@ -181,6 +168,59 @@ fields_line <- ggplot(line_df, aes(x = year, y = female_prop, group = field, col
   
 
 fields_line
+```
+
+Since 1985, the proportion of female students in Arts, Education, Engineering, and Physical Sciences has increased. 
+
+```{r kruskal-wallis}
+#### physsci from 1985, 2000, 2015 ####
+physsci <- phd_fields_field %>% 
+  filter(field == "physsci",
+         year == "1985" |
+           year == "2000" |
+           year == "2015") %>% 
+  select("year", "female_prop")
+
+physsci_kw <- kruskal.test(female_prop ~ year, data = physsci)
+physsci_kw 
+
+##### eng from 1985, 2000, 2015 ####
+eng <- phd_fields_field %>% 
+  filter(field == "eng") %>% 
+  select("year", "female_prop")
+
+eng_kw <- kruskal.test(female_prop ~ year, data = eng)
+eng_kw
+
+##### edu from 1985, 2000, 2015 ####
+edu <- phd_fields_field %>% 
+  filter(field == "edu") %>% 
+  select("year", "female_prop")
+
+edu_kw <- kruskal.test(female_prop ~ year, data = edu)
+edu_kw
+
+##### arts from 1985, 2000, 2015 ####
+arts <- phd_fields_field %>% 
+  filter(field == "arts",
+         year == "1985" |
+           year == "2000" |
+           year == "2015") %>% 
+  select("year", "female_prop")
+
+arts_kw <- kruskal.test(female_prop ~ year, data = arts)
+arts_kw
+
+#### lifesci ####
+lifesci <- phd_fields_field %>% 
+  filter(field == "lifesci",
+         year == "1985" |
+           year == "2000" |
+           year == "2015") %>% 
+  select("year", "female_prop")
+
+lifesci_kw <- kruskal.test(female_prop ~ year, data = lifesci)
+lifesci_kw
 ```
 
 
