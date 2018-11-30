@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #### load packages ####
 library(tidyverse)
 library(stargazer)
+library(beyonce)
 
 #### read in data ####
 phd_fields_sex <- read_csv("phds_field_sex.csv")
@@ -165,11 +166,19 @@ arts <- phd_fields_field %>%
   filter(field == "arts") %>% 
   select("year", "female_prop")
 
-fields_line <- ggplot(line_df, aes(x = year, y = female_prop, group = field)) +
-  geom_line(aes(color = field)) +
-  geom_point(aes(color = field)) +
+line_x = "Year"
+line_y = "Proportion of female students in total population"
+
+fields_line <- ggplot(line_df, aes(x = year, y = female_prop, group = field, color = field)) +
+  geom_line() +
+  geom_point(size = 3) +
+  scale_x_continuous(breaks = c(1985, 2000, 2015), labels = c("1985", "2000", "2015")) +
+  scale_color_manual(values = beyonce_palette(18)) +
   expand_limits(y = 1) +
-  theme_minimal()
+  theme_bw() +
+  theme(panel.grid.minor = element_line(linetype = "blank")) +
+  labs(x = line_x, y = line_y)
+  
 
 fields_line
 ```
