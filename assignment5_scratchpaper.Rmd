@@ -264,7 +264,7 @@ arts_x2 <- chisq.test(arts_x2df)
 arts_x2
 
 ```
- 
+Comparing total PhD students, there is a significant effect of year on proportion of female students in the physical sciences, (_X_^2^(`r physsci_x2$parameter`) = `r physsci_x2$statistic`, _p_ < 0.001), engineering (_X_^2^(`r eng_x2$parameter`) = `r eng_x2$statistic`, _p_ < 0.001), education (_X_^2^(`r edu_x2$parameter`) = `r edu_x2$statistic`, _p_ < 0.001), and the humanities and arts (_X_^2^(`r arts_x2$parameter`) = `r arts_x2$statistic`, _p_ < 0.001). Between 1985 and 2015, the proportion of female students in each discipline grew (cite line figure).
 
 ##### Model describing faculty salary
 Explore relationships between
